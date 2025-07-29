@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Sinhala Letters - Fixed Drawing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .letter-display {
+            font-size: 4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .canvas-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        #drawingCanvas {
+            border: 3px solid #3498db;
+            background: white;
+            cursor: crosshair;
+            border-radius: 10px;
+            display: block;
+            touch-action: none; /* Prevent scrolling on touch */
+        }
+
+        #drawingCanvas:hover {
+            border-color: #2980b9;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+
+        #drawingCanvas.active {
+            border-color: #e74c3c;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+            box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(149, 165, 166, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.5);
+        }
+
+        .status-area {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #ecf0f1;
+        }
+
+        .feedback {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+
+        .feedback.success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .feedback.error {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        .feedback.info {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            color: #0c5460;
+            border-left: 5px solid #17a2b8;
+        }
+
+        .debug-info {
+            background: #f1f3f4;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            border: 1px solid #dadce0;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .title {
+                font-size: 2em;
+            }
+
+            .letter-display {
+                font-size: 3em;
+            }
+
+            #drawingCanvas {
+                width: 250px;
+                height: 250px;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                min-width: 100px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1 class="title">🎯 Sinhala Letters - Fixed</h1>
+            <p style="color: #666; margin-bottom: 20px;">Enhanced drawing with debugging</p>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div style="color: #7f8c8d; font-size: 1.1em;">Current Letter:</div>
+            <div class="letter-display" id="currentLetter">ක</div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="drawingCanvas" width="300" height="300"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="analyzeBtn" class="btn btn-primary">🤖 Analyze</button>
+            <button id="clearBtn" class="btn btn-secondary">🗑️ Clear</button>
+            <button id="nextBtn" class="btn btn-success">⏭️ Next</button>
+        </div>
+
+        <div class="status-area">
+            <div id="feedback" class="feedback info">
+                ✨ Welcome! Draw the letter above and click "Analyze" to get feedback.
+            </div>
+        </div>
+
+        <div class="debug-info">
+            <strong>🔧 Debug Information:</strong><br>
+            Status: <span id="debugStatus">Ready</span><br>
+            Mouse Position: <span id="mousePos">-</span><br>
+            Drawing State: <span id="isDrawingState">Not Drawing</span><br>
+            Strokes: <span id="strokeCount">0</span><br>
+            Canvas Events: <span id="eventCount">0</span>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const currentLetterEl = document.getElementById('currentLetter');
+        const feedbackEl = document.getElementById('feedback');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        // Debug elements
+        const debugStatus = document.getElementById('debugStatus');
+        const mousePos = document.getElementById('mousePos');
+        const isDrawingState = document.getElementById('isDrawingState');
+        const strokeCountEl = document.getElementById('strokeCount');
+        const eventCountEl = document.getElementById('eventCount');
+
+        // State variables
+        let isDrawing = false;
+        let strokeCount = 0;
+        let eventCount = 0;
+        let currentLetterIndex = 0;
+
+        // Sinhala letters
+        const SINHALA_LETTERS = ['ක', 'ඛ', 'ග', 'ඝ', 'ඞ', 'ච', 'ඡ', 'ජ', 'ඣ', 'ඤ',
+            'ට', 'ඨ', 'ඩ', 'ඪ', 'ණ', 'ත', 'ථ', 'ද', 'ධ', 'න',
+            'ප', 'ඵ', 'බ', 'භ', 'ම', 'ය', 'ර', 'ල', 'ව', 'ශ',
+            'ෂ', 'ස', 'හ', 'ළ', 'ෆ'];
+
+        // Initialize canvas
+        function initCanvas() {
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#2c3e50';
+            
+            console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
+            updateDebugInfo('Canvas initialized');
+        }
+
+        // Update debug information
+        function updateDebugInfo(status, e = null) {
+            debugStatus.textContent = status;
+            
+            if (e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = Math.round(e.clientX - rect.left);
+                const y = Math.round(e.clientY - rect.top);
+                mousePos.textContent = `${x}, ${y}`;
+            }
+            
+            isDrawingState.textContent = isDrawing ? 'Drawing' : 'Not Drawing';
+            strokeCountEl.textContent = strokeCount;
+            eventCountEl.textContent = eventCount;
+        }
+
+        // Drawing functions
+        function startDrawing(e) {
+            console.log('🖊️ Start drawing');
+            eventCount++;
+            isDrawing = true;
+            strokeCount++;
+            
+            canvas.classList.add('active');
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            
+            updateDebugInfo('Drawing started', e);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            eventCount++;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            
+            updateDebugInfo('Drawing', e);
+        }
+
+        function stopDrawing(e) {
+            if (!isDrawing) return;
+            
+            console.log('🖊️ Stop drawing');
+            eventCount++;
+            isDrawing = false;
+            
+            canvas.classList.remove('active');
+            ctx.beginPath();
+            
+            updateDebugInfo('Drawing stopped', e);
+        }
+
+        // Touch event handler
+        function handleTouch(e) {
+            e.preventDefault();
+            
+            const touch = e.touches[0] || e.changedTouches[0];
+            const mouseEvent = new MouseEvent(
+                e.type === 'touchstart' ? 'mousedown' :
+                e.type === 'touchmove' ? 'mousemove' : 'mouseup',
+                {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    bubbles: true
+                }
+            );
+            
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        // Clear canvas
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            strokeCount = 0;
+            eventCount = 0;
+            canvas.classList.remove('active');
+            updateDebugInfo('Canvas cleared');
+            showFeedback('Canvas cleared! Draw the letter above.', 'info');
+        }
+
+        // Show feedback
+        function showFeedback(message, type = 'info') {
+            feedbackEl.textContent = message;
+            feedbackEl.className = `feedback ${type}`;
+        }
+
+        // Analyze drawing (mock function)
+        function analyzeDrawing() {
+            if (isCanvasEmpty()) {
+                showFeedback('❌ Please draw something first!', 'error');
+                return;
+            }
+
+            const currentLetter = SINHALA_LETTERS[currentLetterIndex];
+            const confidence = Math.random() * 0.4 + 0.6; // 60-100%
+            const isCorrect = Math.random() > 0.3; // 70% chance of being "correct"
+
+            if (isCorrect) {
+                showFeedback(`🎯 Great! Recognized "${currentLetter}" with ${Math.round(confidence * 100)}% confidence!`, 'success');
+                setTimeout(() => {
+                    nextLetter();
+                }, 2000);
+            } else {
+                const wrongLetter = SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)];
+                showFeedback(`🤔 Detected "${wrongLetter}" instead of "${currentLetter}". Try again!`, 'error');
+            }
+        }
+
+        // Next letter
+        function nextLetter() {
+            currentLetterIndex = (currentLetterIndex + 1) % SINHALA_LETTERS.length;
+            currentLetterEl.textContent = SINHALA_LETTERS[currentLetterIndex];
+            clearCanvas();
+            showFeedback(`📝 New letter: "${SINHALA_LETTERS[currentLetterIndex]}". Draw it below!`, 'info');
+        }
+
+        // Check if canvas is empty
+        function isCanvasEmpty() {
+            const blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            return canvas.toDataURL() === blank.toDataURL();
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing, { passive: false });
+            canvas.addEventListener('mousemove', draw, { passive: false });
+            canvas.addEventListener('mouseup', stopDrawing, { passive: false });
+            canvas.addEventListener('mouseout', stopDrawing, { passive: false });
+
+            // Touch events
+            canvas.addEventListener('touchstart', handleTouch, { passive: false });
+            canvas.addEventListener('touchmove', handleTouch, { passive: false });
+            canvas.addEventListener('touchend', handleTouch, { passive: false });
+
+            // Button events
+            analyzeBtn.addEventListener('click', analyzeDrawing);
+            clearBtn.addEventListener('click', clearCanvas);
+            nextBtn.addEventListener('click', nextLetter);
+
+            // Mouse tracking (for debug)
+            canvas.addEventListener('mousemove', function(e) {
+                if (!isDrawing) {
+                    updateDebugInfo('Mouse tracking', e);
+                }
+            });
+
+            console.log('✅ All event listeners attached');
+        }
+
+        // Initialize application
+        function initApp() {
+            console.log('🚀 Initializing Sinhala Letters App - Fixed Version');
+            
+            initCanvas();
+            setupEventListeners();
+            
+            currentLetterEl.textContent = SINHALA_LETTERS[0];
+            updateDebugInfo('App initialized');
+            
+            // Test canvas functionality
+            setTimeout(() => {
+                console.log('🧪 Testing canvas...');
+                ctx.beginPath();
+                ctx.arc(150, 150, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = '#3498db';
+                ctx.fill();
+                console.log('✅ Canvas test dot drawn');
+                
+                // Clear test dot after 1 second
+                setTimeout(() => {
+                    ctx.clearRect(145, 145, 10, 10);
+                }, 1000);
+            }, 500);
+        }
+
+        // Start the app when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('❌ Global error:', e.error);
+            updateDebugInfo('Error: ' + e.message);
+        });
+
+        console.log('📜 Script loaded successfully');
+    </script>
+</body>
+</html>
