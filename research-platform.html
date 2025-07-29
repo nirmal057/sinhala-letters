@@ -483,6 +483,59 @@
                 background: #20c997;
             }
         }
+
+        /* Enhanced tooltips for predictions */
+        .prediction-result {
+            position: relative;
+            cursor: help;
+        }
+
+        .prediction-result:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Feature analysis styles */
+        .features-analysis {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .feature-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .feature-label {
+            color: #666;
+        }
+
+        .feature-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
     </style>
 </head>
 
@@ -877,7 +930,192 @@
             canvas.dispatchEvent(mouseEvent);
         }
 
-        // Model simulation functions
+        // Advanced image analysis functions
+        function analyzeCanvasDrawing() {
+            // Get image data from canvas
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+
+            // Extract basic features
+            const features = extractImageFeatures(imageData);
+
+            return features;
+        }
+
+        function extractImageFeatures(imageData) {
+            const pixels = imageData.data;
+            const width = imageData.width;
+            const height = imageData.height;
+
+            let features = {
+                strokePixels: 0,
+                boundingBox: { minX: width, maxX: 0, minY: height, maxY: 0 },
+                centerOfMass: { x: 0, y: 0 },
+                strokeDensity: 0,
+                aspectRatio: 0,
+                complexity: 0,
+                strokeDirection: [],
+                corners: 0
+            };
+
+            let totalX = 0, totalY = 0, strokeCount = 0;
+
+            // Analyze pixels
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const index = (y * width + x) * 4;
+                    const alpha = pixels[index + 3];
+
+                    if (alpha > 0) { // Non-transparent pixel (stroke)
+                        features.strokePixels++;
+                        strokeCount++;
+                        totalX += x;
+                        totalY += y;
+
+                        // Update bounding box
+                        features.boundingBox.minX = Math.min(features.boundingBox.minX, x);
+                        features.boundingBox.maxX = Math.max(features.boundingBox.maxX, x);
+                        features.boundingBox.minY = Math.min(features.boundingBox.minY, y);
+                        features.boundingBox.maxY = Math.max(features.boundingBox.maxY, y);
+                    }
+                }
+            }
+
+            if (strokeCount > 0) {
+                features.centerOfMass.x = totalX / strokeCount;
+                features.centerOfMass.y = totalY / strokeCount;
+
+                const width_bb = features.boundingBox.maxX - features.boundingBox.minX;
+                const height_bb = features.boundingBox.maxY - features.boundingBox.minY;
+
+                features.aspectRatio = width_bb > 0 ? height_bb / width_bb : 1;
+                features.strokeDensity = features.strokePixels / (width_bb * height_bb || 1);
+                features.complexity = calculateComplexity(imageData, features.boundingBox);
+            }
+
+            return features;
+        }
+
+        function calculateComplexity(imageData, boundingBox) {
+            // Simple complexity measure based on edge detection
+            const pixels = imageData.data;
+            const width = imageData.width;
+            let edgeCount = 0;
+
+            for (let y = boundingBox.minY + 1; y < boundingBox.maxY - 1; y++) {
+                for (let x = boundingBox.minX + 1; x < boundingBox.maxX - 1; x++) {
+                    const index = (y * width + x) * 4;
+                    const alpha = pixels[index + 3];
+
+                    if (alpha > 0) {
+                        // Check surrounding pixels for edges
+                        const surroundingIndices = [
+                            ((y - 1) * width + x) * 4 + 3,
+                            ((y + 1) * width + x) * 4 + 3,
+                            (y * width + (x - 1)) * 4 + 3,
+                            (y * width + (x + 1)) * 4 + 3
+                        ];
+
+                        let neighborCount = 0;
+                        surroundingIndices.forEach(idx => {
+                            if (pixels[idx] > 0) neighborCount++;
+                        });
+
+                        if (neighborCount < 4) edgeCount++;
+                    }
+                }
+            }
+
+            return edgeCount / Math.max(1, (boundingBox.maxX - boundingBox.minX) * (boundingBox.maxY - boundingBox.minY));
+        }
+
+        // Enhanced letter recognition based on shape analysis
+        function recognizeSinhalaLetter(features, targetLetter) {
+            // Define shape characteristics for Sinhala letters
+            const letterPatterns = {
+                'ක': { aspectRatio: [0.8, 1.2], complexity: [0.02, 0.08], density: [0.1, 0.3] },
+                'ග': { aspectRatio: [0.6, 1.0], complexity: [0.03, 0.10], density: [0.15, 0.35] },
+                'ත': { aspectRatio: [0.4, 0.8], complexity: [0.01, 0.05], density: [0.2, 0.4] },
+                'න': { aspectRatio: [0.5, 0.9], complexity: [0.02, 0.07], density: [0.15, 0.35] },
+                'ප': { aspectRatio: [0.7, 1.1], complexity: [0.02, 0.08], density: [0.2, 0.4] },
+                'ම': { aspectRatio: [0.6, 1.0], complexity: [0.04, 0.12], density: [0.25, 0.45] },
+                'ය': { aspectRatio: [0.5, 0.9], complexity: [0.03, 0.09], density: [0.15, 0.35] },
+                'ර': { aspectRatio: [0.3, 0.7], complexity: [0.01, 0.04], density: [0.3, 0.5] },
+                'ල': { aspectRatio: [0.5, 0.9], complexity: [0.02, 0.08], density: [0.2, 0.4] },
+                'ව': { aspectRatio: [0.6, 1.0], complexity: [0.02, 0.08], density: [0.15, 0.35] },
+                'ස': { aspectRatio: [0.7, 1.1], complexity: [0.03, 0.10], density: [0.2, 0.4] },
+                'හ': { aspectRatio: [0.8, 1.2], complexity: [0.05, 0.15], density: [0.3, 0.5] }
+            };
+
+            // Calculate match scores for each letter
+            let bestMatch = { letter: targetLetter, confidence: 0.3 };
+            let allScores = [];
+
+            Object.entries(letterPatterns).forEach(([letter, pattern]) => {
+                let score = 0;
+                let matches = 0;
+
+                // Aspect ratio match
+                if (features.aspectRatio >= pattern.aspectRatio[0] && features.aspectRatio <= pattern.aspectRatio[1]) {
+                    score += 0.4;
+                    matches++;
+                } else {
+                    const ratioDistance = Math.min(
+                        Math.abs(features.aspectRatio - pattern.aspectRatio[0]),
+                        Math.abs(features.aspectRatio - pattern.aspectRatio[1])
+                    );
+                    score += Math.max(0, 0.4 - ratioDistance);
+                }
+
+                // Complexity match
+                if (features.complexity >= pattern.complexity[0] && features.complexity <= pattern.complexity[1]) {
+                    score += 0.3;
+                    matches++;
+                } else {
+                    const complexityDistance = Math.min(
+                        Math.abs(features.complexity - pattern.complexity[0]),
+                        Math.abs(features.complexity - pattern.complexity[1])
+                    );
+                    score += Math.max(0, 0.3 - complexityDistance * 10);
+                }
+
+                // Density match
+                if (features.strokeDensity >= pattern.density[0] && features.strokeDensity <= pattern.density[1]) {
+                    score += 0.3;
+                    matches++;
+                } else {
+                    const densityDistance = Math.min(
+                        Math.abs(features.strokeDensity - pattern.density[0]),
+                        Math.abs(features.strokeDensity - pattern.density[1])
+                    );
+                    score += Math.max(0, 0.3 - densityDistance);
+                }
+
+                // Bonus for target letter
+                if (letter === targetLetter && matches >= 2) {
+                    score += 0.1;
+                }
+
+                allScores.push({ letter, score, matches });
+
+                if (score > bestMatch.confidence) {
+                    bestMatch = { letter, confidence: score };
+                }
+            });
+
+            // Ensure minimum confidence and realistic results
+            bestMatch.confidence = Math.max(0.3, Math.min(0.95, bestMatch.confidence));
+
+            return {
+                prediction: bestMatch.letter,
+                confidence: bestMatch.confidence,
+                isCorrect: bestMatch.letter === targetLetter,
+                features: features,
+                allScores: allScores.sort((a, b) => b.score - a.score).slice(0, 3)
+            };
+        }
+
+        // Model simulation functions with actual image analysis
         async function simulateCNN() {
             const startTime = performance.now();
 
@@ -887,23 +1125,26 @@
             const processingTime = Math.round(performance.now() - startTime);
             const currentLetter = SINHALA_LETTERS[currentLetterIndex];
 
-            // CNN simulation - higher accuracy, especially for complex letters
-            const baseAccuracy = currentAge <= 7 ? 0.65 : currentAge <= 9 ? 0.75 : 0.85;
-            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.1 :
-                currentLetter.difficulty === 'medium' ? 1.0 : 0.9;
+            // Analyze actual canvas drawing
+            const features = analyzeCanvasDrawing();
+            const analysis = recognizeSinhalaLetter(features, currentLetter.letter);
 
-            const confidence = Math.min(0.95, baseAccuracy * difficultyMultiplier + Math.random() * 0.1);
-            const isCorrect = Math.random() < confidence;
-
-            const prediction = isCorrect ? currentLetter.letter :
-                SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
+            // CNN tends to be more accurate with better feature extraction
+            let confidence = analysis.confidence;
+            if (analysis.isCorrect) {
+                confidence = Math.min(0.95, confidence + 0.1 + Math.random() * 0.1);
+            } else {
+                confidence = Math.max(0.3, confidence - 0.05 + Math.random() * 0.1);
+            }
 
             return {
                 model: 'CNN',
-                prediction,
+                prediction: analysis.prediction,
                 confidence,
                 processingTime,
-                isCorrect
+                isCorrect: analysis.isCorrect,
+                features: analysis.features,
+                alternativePredictions: analysis.allScores
             };
         }
 
@@ -916,23 +1157,34 @@
             const processingTime = Math.round(performance.now() - startTime);
             const currentLetter = SINHALA_LETTERS[currentLetterIndex];
 
-            // HMM simulation - moderate accuracy, struggles with complex letters
-            const baseAccuracy = currentAge <= 7 ? 0.55 : currentAge <= 9 ? 0.65 : 0.75;
-            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.0 :
-                currentLetter.difficulty === 'medium' ? 0.85 : 0.7;
+            // Analyze actual canvas drawing
+            const features = analyzeCanvasDrawing();
+            const analysis = recognizeSinhalaLetter(features, currentLetter.letter);
 
-            const confidence = Math.min(0.90, baseAccuracy * difficultyMultiplier + Math.random() * 0.15);
-            const isCorrect = Math.random() < confidence;
+            // HMM tends to be less accurate, especially with complex shapes
+            let confidence = analysis.confidence;
+            if (analysis.isCorrect) {
+                confidence = Math.min(0.90, confidence + 0.05 + Math.random() * 0.05);
+            } else {
+                confidence = Math.max(0.25, confidence - 0.1 + Math.random() * 0.1);
+            }
 
-            const prediction = isCorrect ? currentLetter.letter :
-                SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
+            // HMM might make different mistakes based on sequential analysis
+            let prediction = analysis.prediction;
+            if (!analysis.isCorrect && Math.random() < 0.3) {
+                // HMM might confuse similar sequential patterns
+                const similarLetters = ['ක', 'ග', 'ත', 'න', 'ප', 'ම'];
+                prediction = similarLetters[Math.floor(Math.random() * similarLetters.length)];
+            }
 
             return {
                 model: 'HMM',
                 prediction,
                 confidence,
                 processingTime,
-                isCorrect
+                isCorrect: prediction === currentLetter.letter,
+                features: analysis.features,
+                alternativePredictions: analysis.allScores
             };
         }
 
@@ -998,12 +1250,18 @@
             }
         }
 
-        // Display results
+        // Display results with detailed analysis
         function displayCNNResult(result) {
             cnnPredictionEl.textContent = result.prediction;
             cnnConfidenceEl.style.width = `${result.confidence * 100}%`;
             cnnConfidenceTextEl.textContent = `Confidence: ${Math.round(result.confidence * 100)}%`;
             cnnProcessingTimeEl.textContent = `Processing: ${result.processingTime}ms`;
+
+            // Add feature analysis tooltip
+            if (result.features) {
+                const tooltip = `Features: Pixels=${result.features.strokePixels}, Ratio=${result.features.aspectRatio.toFixed(2)}, Complexity=${(result.features.complexity * 100).toFixed(1)}%`;
+                cnnPredictionEl.title = tooltip;
+            }
         }
 
         function displayHMMResult(result) {
@@ -1011,6 +1269,12 @@
             hmmConfidenceEl.style.width = `${result.confidence * 100}%`;
             hmmConfidenceTextEl.textContent = `Confidence: ${Math.round(result.confidence * 100)}%`;
             hmmProcessingTimeEl.textContent = `Processing: ${result.processingTime}ms`;
+
+            // Add feature analysis tooltip
+            if (result.features) {
+                const tooltip = `Features: Pixels=${result.features.strokePixels}, Ratio=${result.features.aspectRatio.toFixed(2)}, Complexity=${(result.features.complexity * 100).toFixed(1)}%`;
+                hmmPredictionEl.title = tooltip;
+            }
         }
 
         // Compare models
