@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +70,8 @@
             cursor: crosshair;
             border-radius: 10px;
             display: block;
-            touch-action: none; /* Prevent scrolling on touch */
+            touch-action: none;
+            /* Prevent scrolling on touch */
         }
 
         #drawingCanvas:hover {
@@ -206,6 +208,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="app-container">
         <div class="header">
@@ -253,7 +256,7 @@
         const analyzeBtn = document.getElementById('analyzeBtn');
         const clearBtn = document.getElementById('clearBtn');
         const nextBtn = document.getElementById('nextBtn');
-        
+
         // Debug elements
         const debugStatus = document.getElementById('debugStatus');
         const mousePos = document.getElementById('mousePos');
@@ -279,7 +282,7 @@
             ctx.lineJoin = 'round';
             ctx.lineWidth = 4;
             ctx.strokeStyle = '#2c3e50';
-            
+
             console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
             updateDebugInfo('Canvas initialized');
         }
@@ -287,14 +290,14 @@
         // Update debug information
         function updateDebugInfo(status, e = null) {
             debugStatus.textContent = status;
-            
+
             if (e) {
                 const rect = canvas.getBoundingClientRect();
                 const x = Math.round(e.clientX - rect.left);
                 const y = Math.round(e.clientY - rect.top);
                 mousePos.textContent = `${x}, ${y}`;
             }
-            
+
             isDrawingState.textContent = isDrawing ? 'Drawing' : 'Not Drawing';
             strokeCountEl.textContent = strokeCount;
             eventCountEl.textContent = eventCount;
@@ -306,62 +309,62 @@
             eventCount++;
             isDrawing = true;
             strokeCount++;
-            
+
             canvas.classList.add('active');
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             ctx.beginPath();
             ctx.moveTo(x, y);
-            
+
             updateDebugInfo('Drawing started', e);
         }
 
         function draw(e) {
             if (!isDrawing) return;
-            
+
             eventCount++;
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             ctx.lineTo(x, y);
             ctx.stroke();
-            
+
             updateDebugInfo('Drawing', e);
         }
 
         function stopDrawing(e) {
             if (!isDrawing) return;
-            
+
             console.log('🖊️ Stop drawing');
             eventCount++;
             isDrawing = false;
-            
+
             canvas.classList.remove('active');
             ctx.beginPath();
-            
+
             updateDebugInfo('Drawing stopped', e);
         }
 
         // Touch event handler
         function handleTouch(e) {
             e.preventDefault();
-            
+
             const touch = e.touches[0] || e.changedTouches[0];
             const mouseEvent = new MouseEvent(
                 e.type === 'touchstart' ? 'mousedown' :
-                e.type === 'touchmove' ? 'mousemove' : 'mouseup',
+                    e.type === 'touchmove' ? 'mousemove' : 'mouseup',
                 {
                     clientX: touch.clientX,
                     clientY: touch.clientY,
                     bubbles: true
                 }
             );
-            
+
             canvas.dispatchEvent(mouseEvent);
         }
 
@@ -438,7 +441,7 @@
             nextBtn.addEventListener('click', nextLetter);
 
             // Mouse tracking (for debug)
-            canvas.addEventListener('mousemove', function(e) {
+            canvas.addEventListener('mousemove', function (e) {
                 if (!isDrawing) {
                     updateDebugInfo('Mouse tracking', e);
                 }
@@ -450,13 +453,13 @@
         // Initialize application
         function initApp() {
             console.log('🚀 Initializing Sinhala Letters App - Fixed Version');
-            
+
             initCanvas();
             setupEventListeners();
-            
+
             currentLetterEl.textContent = SINHALA_LETTERS[0];
             updateDebugInfo('App initialized');
-            
+
             // Test canvas functionality
             setTimeout(() => {
                 console.log('🧪 Testing canvas...');
@@ -465,7 +468,7 @@
                 ctx.fillStyle = '#3498db';
                 ctx.fill();
                 console.log('✅ Canvas test dot drawn');
-                
+
                 // Clear test dot after 1 second
                 setTimeout(() => {
                     ctx.clearRect(145, 145, 10, 10);
@@ -481,7 +484,7 @@
         }
 
         // Global error handler
-        window.addEventListener('error', function(e) {
+        window.addEventListener('error', function (e) {
             console.error('❌ Global error:', e.error);
             updateDebugInfo('Error: ' + e.message);
         });
@@ -489,4 +492,5 @@
         console.log('📜 Script loaded successfully');
     </script>
 </body>
+
 </html>
