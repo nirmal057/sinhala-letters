@@ -252,7 +252,7 @@ Research Framework
 ### 📊 Research Timeline
 
 **Month 1:** Model development and initial testing
-**Month 2:** Data collection and comparative analysis  
+**Month 2:** Data collection and comparative analysis
 **Month 3:** Educational application development
 **Month 4:** Longitudinal study and report writing
 
@@ -272,8 +272,8 @@ Research Framework
 
 ---
 
-**Research Contact:** Nirmal057  
-**Project Repository:** https://github.com/nirmal057/sinhala-letters  
+**Research Contact:** Nirmal057
+**Project Repository:** https://github.com/nirmal057/sinhala-letters
 **Research Platform:** http://localhost:3000/research-platform.html
 
 ---

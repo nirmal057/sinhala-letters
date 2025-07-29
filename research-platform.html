@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +65,7 @@
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: 2px solid #ecf0f1;
         }
 
@@ -111,7 +112,7 @@
             background: white;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: 3px solid transparent;
             transition: all 0.3s ease;
         }
@@ -126,7 +127,7 @@
 
         .model-panel.active {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .model-header {
@@ -170,7 +171,7 @@
             border-radius: 15px;
             padding: 25px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .activity-header {
@@ -183,7 +184,7 @@
             font-weight: bold;
             color: #2c3e50;
             margin: 15px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .letter-info {
@@ -290,7 +291,7 @@
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .comparison-results {
@@ -346,7 +347,7 @@
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .progress-grid {
@@ -411,8 +412,16 @@
         }
 
         @keyframes starGlow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); color: #ff9800; }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+                color: #ff9800;
+            }
         }
 
         /* Mobile Responsiveness */
@@ -464,11 +473,19 @@
         }
 
         @keyframes recordingPulse {
-            0%, 100% { background: #28a745; }
-            50% { background: #20c997; }
+
+            0%,
+            100% {
+                background: #28a745;
+            }
+
+            50% {
+                background: #20c997;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="data-collection" id="dataCollection">
         📊 Research Mode: Data Collection Active
@@ -479,8 +496,10 @@
             <h1 class="title">🎯 Sinhala Learning Research Platform</h1>
             <div class="subtitle">CNN vs HMM Comparative Study for Children Aged 6-10</div>
             <div class="research-info">
-                <strong>Research Focus:</strong> Comparing Convolutional Neural Networks (CNN) vs Hidden Markov Models (HMM) 
-                for recognizing Sinhala handwritten characters by children, with educational application to improve letter writing skills.
+                <strong>Research Focus:</strong> Comparing Convolutional Neural Networks (CNN) vs Hidden Markov Models
+                (HMM)
+                for recognizing Sinhala handwritten characters by children, with educational application to improve
+                letter writing skills.
             </div>
         </div>
 
@@ -568,7 +587,8 @@
                 <div class="letter-info">
                     <strong>Letter Name:</strong> <span id="letterName">Ka (ක)</span><br>
                     <strong>Pronunciation:</strong> <span id="letterPronunciation">/ka/</span><br>
-                    <strong>Writing Tip:</strong> <span id="writingTip">Start with a vertical line, then add the horizontal stroke</span>
+                    <strong>Writing Tip:</strong> <span id="writingTip">Start with a vertical line, then add the
+                        horizontal stroke</span>
                 </div>
             </div>
 
@@ -608,7 +628,8 @@
                         <div class="confidence-fill cnn" id="cnnConfidence"></div>
                     </div>
                     <div style="font-size: 0.9em;" id="cnnConfidenceText">Confidence: 0%</div>
-                    <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;" id="cnnProcessingTime">Processing: 0ms</div>
+                    <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;" id="cnnProcessingTime">Processing:
+                        0ms</div>
                 </div>
 
                 <div class="result-card hmm">
@@ -618,7 +639,8 @@
                         <div class="confidence-fill hmm" id="hmmConfidence"></div>
                     </div>
                     <div style="font-size: 0.9em;" id="hmmConfidenceText">Confidence: 0%</div>
-                    <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;" id="hmmProcessingTime">Processing: 0ms</div>
+                    <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;" id="hmmProcessingTime">Processing:
+                        0ms</div>
                 </div>
             </div>
 
@@ -703,7 +725,7 @@
 
     <script>
         // Research Platform JavaScript for CNN vs HMM Comparison
-        
+
         // DOM Elements
         const canvas = document.getElementById('researchCanvas');
         const ctx = canvas.getContext('2d');
@@ -711,12 +733,12 @@
         const letterNameEl = document.getElementById('letterName');
         const letterPronunciationEl = document.getElementById('letterPronunciation');
         const writingTipEl = document.getElementById('writingTip');
-        
+
         // Age selection
         const ageButtons = document.querySelectorAll('.age-btn');
         const ageInfoEl = document.getElementById('ageInfo');
         const currentAgeGroupEl = document.getElementById('currentAgeGroup');
-        
+
         // Model panels and buttons
         const cnnPanel = document.getElementById('cnnPanel');
         const hmmPanel = document.getElementById('hmmPanel');
@@ -724,7 +746,7 @@
         const analyzeHMMBtn = document.getElementById('analyzeHMM');
         const clearBtn = document.getElementById('clearCanvas');
         const nextBtn = document.getElementById('nextLetter');
-        
+
         // Results display
         const cnnPredictionEl = document.getElementById('cnnPrediction');
         const hmmPredictionEl = document.getElementById('hmmPrediction');
@@ -735,15 +757,15 @@
         const cnnProcessingTimeEl = document.getElementById('cnnProcessingTime');
         const hmmProcessingTimeEl = document.getElementById('hmmProcessingTime');
         const educationalFeedbackEl = document.getElementById('educationalFeedback');
-        
+
         // Gamification
         const gameElementsEl = document.getElementById('gameElements');
         const starsDisplayEl = document.getElementById('starsDisplay');
         const encouragementMessageEl = document.getElementById('encouragementMessage');
-        
+
         // Progress tracking
         const dataCollectionEl = document.getElementById('dataCollection');
-        
+
         // State variables
         let isDrawing = false;
         let currentAge = 10;
@@ -757,7 +779,7 @@
             confusionMatrix: {},
             modelComparisons: 0
         };
-        
+
         // Sinhala letters with metadata
         const SINHALA_LETTERS = [
             { letter: 'ක', name: 'Ka', pronunciation: '/ka/', tip: 'Start with a vertical line, then add the horizontal stroke', difficulty: 'easy' },
@@ -777,7 +799,7 @@
             { letter: 'ස', name: 'Sa', pronunciation: '/sa/', tip: 'Spiral-like shape', difficulty: 'medium' },
             { letter: 'හ', name: 'Ha', pronunciation: '/ha/', tip: 'Complex shape with multiple curves', difficulty: 'hard' }
         ];
-        
+
         // Age-specific information
         const AGE_INFO = {
             6: 'Age 6: Focus on basic shapes, larger writing space, simple feedback',
@@ -786,14 +808,14 @@
             9: 'Age 9: Detailed feedback, comparison exercises, progress tracking',
             10: 'Age 10: Full dictation tasks, sentence-level feedback, advanced analysis'
         };
-        
+
         // Initialize canvas
         function initCanvas() {
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             ctx.lineWidth = currentAge <= 7 ? 6 : currentAge <= 9 ? 5 : 4;
             ctx.strokeStyle = '#2c3e50';
-            
+
             // Apply age-specific canvas size
             if (currentAge <= 7) {
                 canvas.style.transform = 'scale(1.1)';
@@ -801,51 +823,51 @@
                 canvas.style.transform = 'scale(1)';
             }
         }
-        
+
         // Drawing functions
         function startDrawing(e) {
             isDrawing = true;
             canvas.classList.add('drawing');
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = (e.clientX || e.touches[0].clientX) - rect.left;
             const y = (e.clientY || e.touches[0].clientY) - rect.top;
-            
+
             ctx.beginPath();
             ctx.moveTo(x, y);
-            
+
             // Start data collection
             dataCollectionEl.classList.add('recording');
         }
-        
+
         function draw(e) {
             if (!isDrawing) return;
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
             const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-            
+
             ctx.lineTo(x, y);
             ctx.stroke();
         }
-        
+
         function stopDrawing() {
             if (!isDrawing) return;
-            
+
             isDrawing = false;
             canvas.classList.remove('drawing');
             ctx.beginPath();
-            
+
             dataCollectionEl.classList.remove('recording');
         }
-        
+
         // Touch support
         function handleTouch(e) {
             e.preventDefault();
             const touch = e.touches[0] || e.changedTouches[0];
             const mouseEvent = new MouseEvent(
                 e.type === 'touchstart' ? 'mousedown' :
-                e.type === 'touchmove' ? 'mousemove' : 'mouseup',
+                    e.type === 'touchmove' ? 'mousemove' : 'mouseup',
                 {
                     clientX: touch.clientX,
                     clientY: touch.clientY,
@@ -854,28 +876,28 @@
             );
             canvas.dispatchEvent(mouseEvent);
         }
-        
+
         // Model simulation functions
         async function simulateCNN() {
             const startTime = performance.now();
-            
+
             // Simulate CNN processing (more accurate but slower)
             await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400));
-            
+
             const processingTime = Math.round(performance.now() - startTime);
             const currentLetter = SINHALA_LETTERS[currentLetterIndex];
-            
+
             // CNN simulation - higher accuracy, especially for complex letters
             const baseAccuracy = currentAge <= 7 ? 0.65 : currentAge <= 9 ? 0.75 : 0.85;
-            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.1 : 
-                                       currentLetter.difficulty === 'medium' ? 1.0 : 0.9;
-            
+            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.1 :
+                currentLetter.difficulty === 'medium' ? 1.0 : 0.9;
+
             const confidence = Math.min(0.95, baseAccuracy * difficultyMultiplier + Math.random() * 0.1);
             const isCorrect = Math.random() < confidence;
-            
-            const prediction = isCorrect ? currentLetter.letter : 
-                              SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
-            
+
+            const prediction = isCorrect ? currentLetter.letter :
+                SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
+
             return {
                 model: 'CNN',
                 prediction,
@@ -884,27 +906,27 @@
                 isCorrect
             };
         }
-        
+
         async function simulateHMM() {
             const startTime = performance.now();
-            
+
             // Simulate HMM processing (faster but less accurate)
             await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200));
-            
+
             const processingTime = Math.round(performance.now() - startTime);
             const currentLetter = SINHALA_LETTERS[currentLetterIndex];
-            
+
             // HMM simulation - moderate accuracy, struggles with complex letters
             const baseAccuracy = currentAge <= 7 ? 0.55 : currentAge <= 9 ? 0.65 : 0.75;
-            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.0 : 
-                                       currentLetter.difficulty === 'medium' ? 0.85 : 0.7;
-            
+            const difficultyMultiplier = currentLetter.difficulty === 'easy' ? 1.0 :
+                currentLetter.difficulty === 'medium' ? 0.85 : 0.7;
+
             const confidence = Math.min(0.90, baseAccuracy * difficultyMultiplier + Math.random() * 0.15);
             const isCorrect = Math.random() < confidence;
-            
-            const prediction = isCorrect ? currentLetter.letter : 
-                              SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
-            
+
+            const prediction = isCorrect ? currentLetter.letter :
+                SINHALA_LETTERS[Math.floor(Math.random() * SINHALA_LETTERS.length)].letter;
+
             return {
                 model: 'HMM',
                 prediction,
@@ -913,28 +935,28 @@
                 isCorrect
             };
         }
-        
+
         // Analyze with CNN
         async function analyzeCNN() {
             if (isCanvasEmpty()) {
                 showEducationalFeedback('❌ Please draw the letter first!', 'error');
                 return;
             }
-            
+
             cnnPanel.classList.add('active');
             analyzeCNNBtn.textContent = '🔄 Processing...';
             analyzeCNNBtn.disabled = true;
-            
+
             try {
                 const result = await simulateCNN();
                 displayCNNResult(result);
                 updateResearchData('cnn', result);
-                
+
                 // Check if both models have been tested
                 if (hmmPredictionEl.textContent !== '-') {
                     compareModels();
                 }
-                
+
             } catch (error) {
                 console.error('CNN analysis error:', error);
                 showEducationalFeedback('❌ CNN analysis failed. Please try again.', 'error');
@@ -944,28 +966,28 @@
                 setTimeout(() => cnnPanel.classList.remove('active'), 2000);
             }
         }
-        
+
         // Analyze with HMM
         async function analyzeHMM() {
             if (isCanvasEmpty()) {
                 showEducationalFeedback('❌ Please draw the letter first!', 'error');
                 return;
             }
-            
+
             hmmPanel.classList.add('active');
             analyzeHMMBtn.textContent = '🔄 Processing...';
             analyzeHMMBtn.disabled = true;
-            
+
             try {
                 const result = await simulateHMM();
                 displayHMMResult(result);
                 updateResearchData('hmm', result);
-                
+
                 // Check if both models have been tested
                 if (cnnPredictionEl.textContent !== '-') {
                     compareModels();
                 }
-                
+
             } catch (error) {
                 console.error('HMM analysis error:', error);
                 showEducationalFeedback('❌ HMM analysis failed. Please try again.', 'error');
@@ -975,7 +997,7 @@
                 setTimeout(() => hmmPanel.classList.remove('active'), 2000);
             }
         }
-        
+
         // Display results
         function displayCNNResult(result) {
             cnnPredictionEl.textContent = result.prediction;
@@ -983,25 +1005,25 @@
             cnnConfidenceTextEl.textContent = `Confidence: ${Math.round(result.confidence * 100)}%`;
             cnnProcessingTimeEl.textContent = `Processing: ${result.processingTime}ms`;
         }
-        
+
         function displayHMMResult(result) {
             hmmPredictionEl.textContent = result.prediction;
             hmmConfidenceEl.style.width = `${result.confidence * 100}%`;
             hmmConfidenceTextEl.textContent = `Confidence: ${Math.round(result.confidence * 100)}%`;
             hmmProcessingTimeEl.textContent = `Processing: ${result.processingTime}ms`;
         }
-        
+
         // Compare models
         function compareModels() {
             const cnnPred = cnnPredictionEl.textContent;
             const hmmPred = hmmPredictionEl.textContent;
             const targetLetter = SINHALA_LETTERS[currentLetterIndex].letter;
-            
+
             researchData.modelComparisons++;
-            
+
             let feedback = '';
             let isSuccess = false;
-            
+
             if (cnnPred === targetLetter && hmmPred === targetLetter) {
                 feedback = `🎉 Both models correctly identified "${targetLetter}"! Excellent writing!`;
                 isSuccess = true;
@@ -1014,34 +1036,34 @@
             } else {
                 feedback = `🤔 Both models need improvement. Target was "${targetLetter}", CNN: "${cnnPred}", HMM: "${hmmPred}". Try writing more clearly!`;
             }
-            
+
             showEducationalFeedback(feedback, isSuccess ? 'success' : 'info');
-            
+
             if (isSuccess) {
                 showGameElements();
             }
-            
+
             updateProgressStats();
         }
-        
+
         // Age selection handlers
         ageButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 ageButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
+
                 currentAge = parseInt(btn.dataset.age);
                 ageInfoEl.textContent = AGE_INFO[currentAge];
                 currentAgeGroupEl.textContent = `${currentAge} years`;
-                
+
                 // Apply age-specific styling
                 document.body.className = `age-${currentAge <= 7 ? '6-7' : currentAge <= 9 ? '8-9' : '10'}`;
-                
+
                 initCanvas();
                 updateLetterDisplay();
             });
         });
-        
+
         // Update letter display
         function updateLetterDisplay() {
             const letterData = SINHALA_LETTERS[currentLetterIndex];
@@ -1050,11 +1072,11 @@
             letterPronunciationEl.textContent = letterData.pronunciation;
             writingTipEl.textContent = letterData.tip;
         }
-        
+
         // Clear canvas
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             // Reset predictions
             cnnPredictionEl.textContent = '-';
             hmmPredictionEl.textContent = '-';
@@ -1064,29 +1086,29 @@
             hmmConfidenceTextEl.textContent = 'Confidence: 0%';
             cnnProcessingTimeEl.textContent = 'Processing: 0ms';
             hmmProcessingTimeEl.textContent = 'Processing: 0ms';
-            
+
             gameElementsEl.style.display = 'none';
-            
+
             showEducationalFeedback('Canvas cleared! Draw the current letter and test both models.', 'info');
         }
-        
+
         // Next letter
         function nextLetter() {
             currentLetterIndex = (currentLetterIndex + 1) % SINHALA_LETTERS.length;
             updateLetterDisplay();
             clearCanvas();
-            
+
             const newLetter = SINHALA_LETTERS[currentLetterIndex];
             showEducationalFeedback(`📝 New letter: "${newLetter.letter}" (${newLetter.name}). ${newLetter.tip}`, 'info');
         }
-        
+
         // Show educational feedback
         function showEducationalFeedback(message, type = 'info') {
             educationalFeedbackEl.textContent = message;
-            educationalFeedbackEl.style.color = type === 'success' ? '#155724' : 
-                                                type === 'error' ? '#721c24' : '#0c5460';
+            educationalFeedbackEl.style.color = type === 'success' ? '#155724' :
+                type === 'error' ? '#721c24' : '#0c5460';
         }
-        
+
         // Show game elements
         function showGameElements() {
             const encouragements = [
@@ -1096,10 +1118,10 @@
                 "Your handwriting is improving!",
                 "Excellent job on that letter!"
             ];
-            
+
             gameElementsEl.style.display = 'block';
             encouragementMessageEl.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
-            
+
             // Animate stars
             const stars = starsDisplayEl.querySelectorAll('.star');
             stars.forEach((star, index) => {
@@ -1107,26 +1129,26 @@
                     star.classList.add('earned');
                 }, index * 200);
             });
-            
+
             // Hide after 3 seconds
             setTimeout(() => {
                 gameElementsEl.style.display = 'none';
                 stars.forEach(star => star.classList.remove('earned'));
             }, 3000);
         }
-        
+
         // Update research data
         function updateResearchData(model, result) {
             researchData[model].total++;
             researchData[model].totalTime += result.processingTime;
-            
+
             if (result.isCorrect) {
                 researchData[model].correct++;
             }
-            
+
             researchData.attempts++;
             researchData.dataPoints++;
-            
+
             // Update confusion matrix
             const target = SINHALA_LETTERS[currentLetterIndex].letter;
             if (!researchData.confusionMatrix[target]) {
@@ -1137,40 +1159,40 @@
             }
             researchData.confusionMatrix[target][result.prediction]++;
         }
-        
+
         // Update progress statistics
         function updateProgressStats() {
             // CNN stats
-            const cnnAccuracy = researchData.cnn.total > 0 ? 
+            const cnnAccuracy = researchData.cnn.total > 0 ?
                 Math.round((researchData.cnn.correct / researchData.cnn.total) * 100) : 0;
-            const cnnAvgTime = researchData.cnn.total > 0 ? 
+            const cnnAvgTime = researchData.cnn.total > 0 ?
                 Math.round(researchData.cnn.totalTime / researchData.cnn.total) : 0;
-            
+
             document.getElementById('cnnAccuracy').textContent = cnnAccuracy + '%';
             document.getElementById('cnnMastered').textContent = `${researchData.cnn.correct}/${SINHALA_LETTERS.length}`;
             document.getElementById('cnnAvgTime').textContent = cnnAvgTime + 'ms';
-            
+
             // HMM stats
-            const hmmAccuracy = researchData.hmm.total > 0 ? 
+            const hmmAccuracy = researchData.hmm.total > 0 ?
                 Math.round((researchData.hmm.correct / researchData.hmm.total) * 100) : 0;
-            const hmmAvgTime = researchData.hmm.total > 0 ? 
+            const hmmAvgTime = researchData.hmm.total > 0 ?
                 Math.round(researchData.hmm.totalTime / researchData.hmm.total) : 0;
-            
+
             document.getElementById('hmmAccuracy').textContent = hmmAccuracy + '%';
             document.getElementById('hmmMastered').textContent = `${researchData.hmm.correct}/${SINHALA_LETTERS.length}`;
             document.getElementById('hmmAvgTime').textContent = hmmAvgTime + 'ms';
-            
+
             // Session stats
             const sessionMinutes = Math.round((Date.now() - sessionStartTime) / 60000);
             document.getElementById('sessionDuration').textContent = sessionMinutes + ' min';
             document.getElementById('totalAttempts').textContent = researchData.attempts;
-            
+
             // Research stats
             document.getElementById('dataPoints').textContent = researchData.dataPoints;
             document.getElementById('confusionUpdates').textContent = Object.keys(researchData.confusionMatrix).length;
             document.getElementById('modelComparisons').textContent = researchData.modelComparisons;
         }
-        
+
         // Check if canvas is empty
         function isCanvasEmpty() {
             const blank = document.createElement('canvas');
@@ -1178,7 +1200,7 @@
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();
         }
-        
+
         // Event listeners
         function setupEventListeners() {
             // Canvas events
@@ -1186,48 +1208,49 @@
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mouseout', stopDrawing);
-            
+
             // Touch events
             canvas.addEventListener('touchstart', handleTouch, { passive: false });
             canvas.addEventListener('touchmove', handleTouch, { passive: false });
             canvas.addEventListener('touchend', handleTouch, { passive: false });
-            
+
             // Button events
             analyzeCNNBtn.addEventListener('click', analyzeCNN);
             analyzeHMMBtn.addEventListener('click', analyzeHMM);
             clearBtn.addEventListener('click', clearCanvas);
             nextBtn.addEventListener('click', nextLetter);
         }
-        
+
         // Initialize application
         function initApp() {
             console.log('🚀 Initializing Sinhala Research Platform');
-            
+
             initCanvas();
             setupEventListeners();
             updateLetterDisplay();
-            
+
             // Set initial age info
             ageInfoEl.textContent = AGE_INFO[currentAge];
             currentAgeGroupEl.textContent = `${currentAge} years`;
-            
+
             // Apply initial age styling
             document.body.className = 'age-10';
-            
+
             showEducationalFeedback('Welcome to the Sinhala Learning Research Platform! Select an age group and start drawing letters to compare CNN vs HMM models.', 'info');
-            
+
             // Update progress every 30 seconds
             setInterval(updateProgressStats, 30000);
         }
-        
+
         // Start the application
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initApp);
         } else {
             initApp();
         }
-        
+
         console.log('📊 Sinhala Research Platform loaded successfully');
     </script>
 </body>
+
 </html>
