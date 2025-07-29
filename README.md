@@ -40,9 +40,12 @@ sinhala-handwriting-app/
 ├── 📄 fixed-ai-demo.html        # Alternative demo version
 ├── 🖥️ server-smooth.js          # Enhanced Node.js server
 ├── 🖥️ server.js                 # Basic server implementation
+├── 📂 templates/
+│   └── 📄 index.html            # Server template
+├── 📂 static/
 │   ├── 🎨 style.css             # Styling
-│   └── � script.js             # Frontend logic
-└── �📄 README.md                 # This file
+│   └── 📜 script.js             # Frontend logic
+└── 📄 README.md                 # This file
 ```
 
 ## 🚀 Quick Start
