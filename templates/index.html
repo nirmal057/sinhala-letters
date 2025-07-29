@@ -1,0 +1,46 @@
+<!DOCTYPE html <!-- Canvas for drawing -->
+<div class="game-area">
+    <p>Try writing: <span id="target-letter">ක</span></p>
+    <div class="drawing-container">
+        <canvas id="drawing-board" width="300" height="300"></canvas>
+        <div id="drawing-status" class="drawing-status">Ready to draw</div>
+    </div>
+    <div class="buttons">
+        <button id="check-button">Analyze Handwriting</button>
+        <button id="clear-button">Clear</button>
+    </div>
+    <div id="feedback" class="feedback-container"></div>
+</div>ng="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinhala Handwriting Game</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>✏️ Learn Sinhala Letters!</h1>
+
+        <!-- Canvas for drawing -->
+        <div class="game-area">
+            <p>Try writing: <span id="target-letter">ක</span></p>
+            <canvas id="drawing-board" width="300" height="300"></canvas>
+            <div class="buttons">
+                <button id="check-button">Check</button>
+                <button id="clear-button">Clear</button>
+            </div>
+            <p id="feedback"></p>
+        </div>
+
+        <!-- Progress tracker -->
+        <div class="progress">
+            <p>Progress: <span id="score">0</span>/60</p>
+        </div>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+
+</html>

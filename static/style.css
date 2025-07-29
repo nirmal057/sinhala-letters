@@ -1,0 +1,169 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    margin: 20px auto;
+    max-width: 300px;
+    border: 3px solid #3498db;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.status-indicator {
+    font-size: 1.2em;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.ai-details {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.ai-details h3 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 2px solid #6f42c1;
+    padding-bottom: 8px;
+}
+
+.ai-details h4 {
+    color: #6c757d;
+    margin: 10px 0 5px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.drawing-container {
+    position: relative;
+    display: inline-block;
+    margin: 20px auto;
+}
+
+#drawing-board {
+    border: 2px dashed #3498db;
+    background-color: white;
+    cursor: crosshair;
+}
+
+.drawing-status {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    background-color: #ecf0f1;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: #7f8c8d;
+    transition: all 0.3s ease;
+}
+
+.drawing-status.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.feedback-container {
+    min-height: 60px;
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #ecf0f1;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.feedback-container:not(:empty) {
+    border-left-color: #3498db;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button {
+    padding: 12px 24px;
+    margin: 8px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.buttons button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#feedback {
+    font-weight: bold;
+    min-height: 24px;
+    color: #e74c3c;
+}
+
+.progress {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+#target-letter {
+    font-size: 2em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.game-area {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}

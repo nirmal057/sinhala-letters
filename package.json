@@ -1,0 +1,39 @@
+{
+    "name": "sinhala-letters",
+    "version": "2.0.0",
+    "description": "AI-powered Sinhala handwriting learning application with TensorFlow.js integration",
+    "main": "server-smooth.js",
+    "scripts": {
+        "start": "node server-smooth.js",
+        "dev": "node server-smooth.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    },
+    "keywords": [
+        "sinhala",
+        "handwriting",
+        "ai",
+        "tensorflow",
+        "education",
+        "language-learning",
+        "neural-network",
+        "canvas",
+        "javascript"
+    ],
+    "author": "Nirmal057",
+    "license": "MIT",
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nirmal057/sinhala-letters.git"
+    },
+    "bugs": {
+        "url": "https://github.com/nirmal057/sinhala-letters/issues"
+    },
+    "homepage": "https://github.com/nirmal057/sinhala-letters#readme"
+}

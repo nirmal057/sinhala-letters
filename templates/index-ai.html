@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinhala Handwriting AI - TensorFlow.js</title>
+    <link rel="stylesheet" href="static/style.css">
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🤖 AI-Powered Sinhala Letters!</h1>
+
+        <div class="ai-status" id="ai-status">
+            <div class="status-indicator" id="status-indicator">⏳</div>
+            <span id="status-text">Loading AI Model...</span>
+        </div>
+
+        <!-- Canvas for drawing -->
+        <div class="game-area">
+            <p>Try writing: <span id="target-letter">ක</span></p>
+            <div class="drawing-container">
+                <canvas id="drawing-board" width="300" height="300"></canvas>
+                <div id="drawing-status" class="drawing-status">Ready to draw</div>
+            </div>
+            <div class="buttons">
+                <button id="check-button" disabled>🤖 AI Analysis</button>
+                <button id="clear-button">Clear</button>
+                <button id="next-button">Skip Letter</button>
+            </div>
+            <div id="feedback" class="feedback-container"></div>
+
+            <!-- AI Analysis Details -->
+            <div id="ai-details" class="ai-details hidden">
+                <h3>🧠 AI Analysis Details</h3>
+                <div id="confidence-chart"></div>
+                <div id="top-predictions"></div>
+                <div id="model-info"></div>
+            </div>
+        </div>
+
+        <!-- Progress tracker -->
+        <div class="progress">
+            <p>Progress: <span id="score">0</span>/35</p>
+        </div>
+    </div>
+
+    <script src="static/script-ai.js"></script>
+</body>
+
+</html>
